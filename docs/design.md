@@ -370,180 +370,209 @@ interface AtlassianExecutionStep {
 
 After analyzing all acceptance criteria, several properties can be consolidated to eliminate redundancy:
 
-- Properties related to data persistence (assignments, workflows, semester plans) can be combined into comprehensive storage properties
-- UI display properties for different user roles can be consolidated into role-based access properties  
-- Notification and activity logging properties can be combined into comprehensive event handling properties
-- Import/export and backup properties can be unified into data serialization round-trip properties
+- Properties related to Atlassian integration (Jira, Confluence, JSM) can be combined into comprehensive integration properties
+- Role-based access properties can be unified since they all leverage Atlassian's permission system
+- Notification and activity logging properties can be combined since they all use Atlassian's native systems
+- Configuration export/import properties can be unified into Atlassian configuration round-trip properties
+- AI suggestion properties can be consolidated into comprehensive AI assistance properties
 
 ### Core Properties
 
-**Property 1: Drag-and-drop workflow construction**
-*For any* trigger block and canvas position, dragging the block to the canvas should allow placement and enable configuration of trigger conditions
+**Property 1: Academic project issue type provisioning**
+*For any* academic project creation, the Jira integration should provide custom issue types for assignments, submissions, and approvals
 **Validates: Requirements 1.2**
 
-**Property 2: Workflow connection validation**
-*For any* valid action block and trigger block combination, connecting them should validate the workflow logic and display appropriate connection indicators
+**Property 2: Workflow automation rule creation**
+*For any* assignment workflow configuration, the app should create corresponding Jira automation rules for status transitions and notifications
 **Validates: Requirements 1.3**
 
-**Property 3: Workflow persistence round-trip**
-*For any* valid workflow configuration, saving and then loading the workflow should preserve all workflow elements, connections, and configurations
-**Validates: Requirements 1.4, 8.1, 8.2**
+**Property 3: Academic process execution consistency**
+*For any* triggered academic process, the workflow automation should execute within Jira using native automation capabilities
+**Validates: Requirements 1.4**
 
-**Property 4: Workflow simulation consistency**
-*For any* executable workflow, testing the workflow should produce simulation results that match the expected outcomes based on the workflow configuration
+**Property 4: Academic template provisioning**
+*For any* workflow template request, the app should provide pre-configured Jira project templates for common academic scenarios
 **Validates: Requirements 1.5**
 
-**Property 5: Assignment data completeness**
-*For any* assignment creation request, the system should store all required fields (title, deadline, marks, file upload requirements) and make them retrievable
+**Property 5: Assignment issue creation completeness**
+*For any* assignment creation by faculty, the app should create a Jira issue with all required custom fields for deadline, marks, and submission requirements
 **Validates: Requirements 2.1**
 
-**Property 6: Assignment submission triggers**
-*For any* assignment submission, the system should automatically notify the assigned teacher and create a corresponding review task
+**Property 6: Assignment submission workflow triggering**
+*For any* student work submission, the Jira integration should transition the assignment issue to submitted status and notify the teacher
 **Validates: Requirements 2.2**
 
-**Property 7: Assignment feedback generation**
-*For any* submitted assignment, the system should generate an assignment feedback page and update the submission database with the submission details
+**Property 7: Assignment feedback page generation**
+*For any* assignment submission, the Confluence integration should generate assignment feedback pages linked to the corresponding Jira issues
 **Validates: Requirements 2.3**
 
-**Property 8: Deadline notification scheduling**
-*For any* assignment with an approaching deadline, the system should send reminder notifications to students with pending submissions
+**Property 8: Assignment deadline notification automation**
+*For any* assignment with approaching deadline, the app should use Jira automation to send reminder notifications through Atlassian notification systems
 **Validates: Requirements 2.4**
 
-**Property 9: Review workflow completion**
-*For any* teacher review action, the system should enable grading and feedback entry while automatically notifying the student of the review
+**Property 9: Teacher review workflow completion**
+*For any* teacher submission review, the Jira integration should provide custom fields for grading and comments with automatic student notifications
 **Validates: Requirements 2.5**
 
-**Property 10: Semester plan data persistence**
-*For any* semester plan creation, the system should store all components (weekly schedules, materials, assignments, lab tasks) and make them accessible
+**Property 10: Semester space generation completeness**
+*For any* semester plan creation by faculty, the Confluence integration should generate a semester space with templates for lectures, materials, and assignments
 **Validates: Requirements 3.1**
 
-**Property 11: Semester activity synchronization**
-*For any* semester activity update, the changes should be reflected in both the calendar interface and progress indicators
+**Property 11: Semester roadmap creation**
+*For any* semester activity planning, the Jira integration should create a roadmap showing assignment deadlines, exam dates, and project milestones
 **Validates: Requirements 3.2**
 
-**Property 12: Attendance calculation accuracy**
-*For any* attendance record entry, the system should update student attendance records and calculate attendance percentages correctly
+**Property 12: Attendance tracking macro provision**
+*For any* attendance tracking need, the app should provide Confluence macros for recording and calculating attendance percentages
 **Validates: Requirements 3.3**
 
-**Property 13: Calendar integration consistency**
-*For any* internal exam date setting, the system should integrate with the calendar system and send notifications to all relevant students
+**Property 13: Exam schedule calendar integration**
+*For any* exam schedule setting, the Jira integration should create calendar events and send notifications through Atlassian notification channels
 **Validates: Requirements 3.4**
 
-**Property 14: Progress visualization accuracy**
-*For any* semester progress state, the system should display completion status using accurate visual progress indicators and timeline bars
+**Property 14: Semester dashboard display**
+*For any* progress monitoring requirement, the app should display semester dashboards using Jira dashboard gadgets and Confluence reporting
 **Validates: Requirements 3.5**
 
-**Property 15: Project proposal data capture**
-*For any* project proposal submission, the system should capture all required fields (title, problem statement, technology, team members, synopsis)
+**Property 15: Project proposal JSM request creation**
+*For any* project proposal submission by students, the JSM integration should create a service request with fields for title, problem statement, technology, and team members
 **Validates: Requirements 4.1**
 
-**Property 16: Project approval workflow initiation**
-*For any* project proposal submission, the system should automatically initiate the faculty review and HOD approval workflow
+**Property 16: Project approval routing automation**
+*For any* project proposal submission, the JSM integration should route requests through faculty review and HOD approval queues automatically
 **Validates: Requirements 4.2**
 
-**Property 17: Project approval completion actions**
-*For any* completed project approval, the system should allocate a guide and create a project workspace page
+**Property 17: Project workspace creation on approval**
+*For any* completed project approval, the app should create a Confluence project workspace and assign a faculty guide
 **Validates: Requirements 4.3**
 
-**Property 18: Project milestone generation**
-*For any* approved project, the system should create timeline-based deliverables and tracking mechanisms
+**Property 18: Project milestone issue generation**
+*For any* established project milestones, the Jira integration should generate project issues with timeline-based deliverables and tracking
 **Validates: Requirements 4.4**
 
-**Property 19: Project status propagation**
-*For any* project status change, the system should update all stakeholders and reflect changes in the dashboard
+**Property 19: Project status notification propagation**
+*For any* project status update, the JSM integration should notify stakeholders and update the service request status accordingly
 **Validates: Requirements 4.5**
 
-**Property 20: Dashboard statistics generation**
-*For any* dashboard data request, the system should generate real-time statistics using charts and graphs for visual representation
+**Property 20: Academic analytics dashboard display**
+*For any* admin analytics access, the Academic Dashboard should display Jira dashboard gadgets showing assignments, submissions, and project statistics
+**Validates: Requirements 5.1**
+
+**Property 21: Confluence reporting generation**
+*For any* reporting need, the app should generate Confluence reports with charts and graphs using Atlassian reporting capabilities
 **Validates: Requirements 5.2**
 
-**Property 21: Workflow analytics display**
-*For any* workflow usage analysis request, the dashboard should show active workflows, execution frequency, and performance metrics
+**Property 22: Automation performance metrics provision**
+*For any* workflow performance analysis, the Jira integration should provide automation rule execution logs and performance metrics
 **Validates: Requirements 5.3**
 
-**Property 22: Student progress compilation**
-*For any* student progress report generation, the dashboard should compile both individual and aggregate academic performance data
+**Property 23: Student progress data compilation**
+*For any* student progress tracking requirement, the app should compile data from Jira issues and Confluence pages for comprehensive reporting
 **Validates: Requirements 5.4**
 
-**Property 23: System alert display**
-*For any* system alert occurrence, the dashboard should display notifications for critical events requiring administrative attention
+**Property 24: Critical alert notification system**
+*For any* critical alert occurrence, the app should use Atlassian notification systems to alert administrators of important academic events
 **Validates: Requirements 5.5**
 
-**Property 24: AI context analysis**
-*For any* AI assistance request, the AI assistant should analyze the current context and suggest relevant workflow components
+**Property 25: AI workflow analysis and suggestions**
+*For any* academic workflow configuration, the app should analyze Jira project structure and suggest optimal automation rules
 **Validates: Requirements 6.1**
 
-**Property 25: AI workflow recommendations**
-*For any* workflow suggestion generation, the AI assistant should provide step-by-step automation recommendations based on academic best practices
+**Property 26: AI automation pattern recommendations**
+*For any* workflow optimization need, the app should recommend Atlassian automation patterns based on academic use cases
 **Validates: Requirements 6.2**
 
-**Property 26: AI suggestion interaction**
-*For any* AI suggestion interaction, the system should allow selection and automatic insertion of suggested workflow elements
+**Property 27: AI Confluence template suggestions**
+*For any* Confluence template creation, the app should suggest academic page layouts and macro configurations
 **Validates: Requirements 6.3**
 
-**Property 27: AI optimization detection**
-*For any* complex workflow being built, the AI assistant should identify potential optimization opportunities and suggest improvements
+**Property 28: AI JSM workflow recommendations**
+*For any* complex approval process design, the app should recommend JSM workflow configurations for educational institutions
 **Validates: Requirements 6.4**
 
-**Property 28: AI template provision**
-*For any* workflow template request, the AI assistant should provide pre-configured workflows for common academic scenarios
+**Property 29: AI template library provision**
+*For any* template library access, the app should provide pre-configured Atlassian project templates for common academic scenarios
 **Validates: Requirements 6.5**
 
-**Property 29: Authentication and role-based redirection**
-*For any* user login attempt, the system should authenticate credentials and redirect to the appropriate role-based interface
+**Property 30: Atlassian user management integration**
+*For any* app access, the Forge Platform should integrate with Atlassian user management and apply role-based permissions
 **Validates: Requirements 7.1**
 
-**Property 30: Role-based access control**
-*For any* user role and feature combination, the system should restrict access to features and data based on user role authorization
+**Property 31: Student personalized content display**
+*For any* student user viewing academic content, the app should display personalized Jira filters and Confluence spaces based on their enrollment
+**Validates: Requirements 7.2**
+
+**Property 32: Faculty course management capabilities**
+*For any* faculty course management, the app should provide Jira project administration and Confluence space management capabilities
+**Validates: Requirements 7.3**
+
+**Property 33: Admin configuration interface provision**
+*For any* admin system configuration, the app should offer Forge app configuration interfaces and Atlassian administration integration
+**Validates: Requirements 7.4**
+
+**Property 34: Native permission scheme enforcement**
+*For any* permission enforcement requirement, the app should leverage Atlassian's native permission schemes and group management
 **Validates: Requirements 7.5**
 
-**Property 31: Workflow template modification**
-*For any* imported workflow template, the system should allow users to modify the workflow before saving
+**Property 35: Atlassian configuration export generation**
+*For any* configuration export request, the app should generate Atlassian configuration files including Jira schemes, Confluence templates, and automation rules
+**Validates: Requirements 8.1**
+
+**Property 36: Academic template import validation**
+*For any* academic template import, the app should validate Atlassian compatibility and recreate project structures and workflows
+**Validates: Requirements 8.2**
+
+**Property 37: Cross-instance template compatibility**
+*For any* cross-instance sharing need, the app should provide template packages that work across different Atlassian Cloud instances
 **Validates: Requirements 8.3**
 
-**Property 32: Bulk workflow export**
-*For any* workflow collection, the system should provide bulk export functionality for multiple workflows
+**Property 38: Complete configuration backup export**
+*For any* backup functionality requirement, the app should export complete academic project configurations including permissions and custom fields
 **Validates: Requirements 8.4**
 
-**Property 33: Import validation and error handling**
-*For any* imported workflow containing errors, the system should display validation messages and suggest corrections
+**Property 39: Import validation error handling**
+*For any* import validation failure, the app should display Atlassian-specific error messages and suggest configuration corrections
 **Validates: Requirements 8.5**
 
-**Property 34: Event notification generation**
-*For any* system event occurrence, the system should generate notifications and display them in the global notifications panel
+**Property 40: Atlassian native notification generation**
+*For any* academic event occurrence, the app should generate notifications using Atlassian's native notification system and email integration
 **Validates: Requirements 9.1**
 
-**Property 35: Activity logging completeness**
-*For any* user activity performed, the system should log actions in the comprehensive activity tracking system
+**Property 41: Academic activity logging in Atlassian systems**
+*For any* user activity, the Jira integration should log academic actions in Jira issue history and Confluence page activity
 **Validates: Requirements 9.2**
 
-**Property 36: Notification state management**
-*For any* notification viewing action, the system should mark notifications as read and maintain notification history
+**Property 42: Atlassian notification preference integration**
+*For any* notification management, the app should integrate with Atlassian notification preferences and user settings
 **Validates: Requirements 9.3**
 
-**Property 37: Activity log chronological display**
-*For any* activity log access, the system should display chronological user actions with timestamps and details
+**Property 43: Academic activity reporting using audit logs**
+*For any* activity tracking need, the app should provide academic activity reports using Atlassian audit log capabilities
 **Validates: Requirements 9.4**
 
-**Property 38: Notification preference enforcement**
-*For any* notification preference configuration, the system should respect user settings for notification delivery methods
+**Property 44: Atlassian notification scheme configuration**
+*For any* notification customization requirement, the app should leverage Atlassian's notification scheme configuration for academic events
 **Validates: Requirements 9.5**
 
-**Property 39: Comprehensive data persistence**
-*For any* data storage operation, the system should persist workflows, assignments, submissions, semester schedules, and user information in the database
+**Property 45: Atlassian native data storage utilization**
+*For any* academic data storage, the app should use Atlassian's native data storage including Jira custom fields, Confluence content, and Forge storage APIs
 **Validates: Requirements 10.1**
 
-**Property 40: Database consistency and concurrency**
-*For any* database operation, the system should maintain data consistency and handle concurrent access safely
+**Property 46: Forge platform data consistency maintenance**
+*For any* data operation, the Forge Platform should maintain data consistency using Atlassian's transaction management and concurrent access controls
 **Validates: Requirements 10.2**
 
-**Property 41: Backup and restore round-trip**
-*For any* system data, backup export and restoration should preserve all data integrity and relationships
+**Property 47: Atlassian backup system integration**
+*For any* backup and recovery need, the app should leverage Atlassian's built-in backup systems and data export capabilities
 **Validates: Requirements 10.3**
 
-**Property 42: Data validation enforcement**
-*For any* data entry attempt, the system should enforce data integrity constraints and prevent invalid data entry
+**Property 48: Atlassian validation mechanism usage**
+*For any* data validation requirement, the app should use Atlassian field validation and Forge app data validation mechanisms
 **Validates: Requirements 10.4**
+
+**Property 49: Forge platform performance optimization**
+*For any* performance optimization necessity, the app should utilize Atlassian's caching systems and Forge platform performance best practices
+**Validates: Requirements 10.5**
 
 ## Error Handling
 

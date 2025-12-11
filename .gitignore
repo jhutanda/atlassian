@@ -57,3 +57,6 @@ tunnel.pid
 
 # Test artifacts
 junit.xml
+
+# Kiro IDE files
+.kiro/
