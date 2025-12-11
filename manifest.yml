@@ -1,0 +1,54 @@
+modules:
+  jira:projectPage:
+    - key: academichain-project-page
+      function: main
+      title: AcademiChain Academic Dashboard
+  jira:issuePanel:
+    - key: academichain-issue-panel
+      function: main
+      title: Academic Assignment Panel
+  confluence:spacePage:
+    - key: academichain-space-page
+      function: main
+      title: Semester Management
+  confluence:macro:
+    - key: attendance-tracker
+      function: attendance-macro
+      title: Attendance Tracker
+      description: Track and calculate student attendance
+  jiraServiceManagement:queuePage:
+    - key: academichain-queue-page
+      function: main
+      title: Project Proposal Queue
+  function:
+    - key: main
+      handler: index.handler
+    - key: attendance-macro
+      handler: macros.attendanceHandler
+    - key: assignment-automation
+      handler: automation.assignmentHandler
+    - key: project-approval
+      handler: automation.projectApprovalHandler
+  webtrigger:
+    - key: assignment-webhook
+      function: assignment-automation
+    - key: project-webhook
+      function: project-approval
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+    - read:confluence-content.all
+    - write:confluence-content
+    - read:servicedesk-request
+    - write:servicedesk-request
+    - storage:app
+  external:
+    fetch:
+      backend:
+        - "*.openai.com"
+        - "*.anthropic.com"
+app:
+  id: ari:cloud:ecosystem::app/academichain-ai-automator
+  runtime:
+    name: nodejs18.x
