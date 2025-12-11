@@ -24,6 +24,9 @@ build/
 **/*token*
 **/*key*
 **/*secret*
+**/ATATT*
+**/*FORGE_API_TOKEN*
+**/*API_TOKEN*
 
 # IDE and editor files
 .vscode/settings.json
@@ -76,6 +79,7 @@ junit.xml
 deploy.ps1
 final-deploy.ps1
 deploy.bat
+security-check.ps1
 
 # Temporary deployment directory
 AcademiChain-AI-Automator/
