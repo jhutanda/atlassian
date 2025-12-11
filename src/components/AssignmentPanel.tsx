@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { invoke } from '@forge/bridge';
-import { 
-  Fragment,
+import {
   Text,
   Button,
   Form,
-  FormSection,
-  FormField,
   TextField,
   TextArea,
-  DatePicker,
-  Select,
-  Option,
   StatusLozenge,
+  Fragment,
   SectionMessage
 } from '@forge/ui';
 import { AssignmentIssue } from '../types/academic';
@@ -22,7 +17,7 @@ interface AssignmentPanelProps {
   issueType: string;
 }
 
-export const AssignmentPanel: React.FC<AssignmentPanelProps> = ({ issueKey, issueType }) => {
+export const AssignmentPanel = ({ issueKey, issueType }: AssignmentPanelProps) => {
   const [assignment, setAssignment] = useState<AssignmentIssue | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,23 +27,21 @@ export const AssignmentPanel: React.FC<AssignmentPanelProps> = ({ issueKey, issu
     const fetchAssignmentData = async () => {
       try {
         setLoading(true);
-        const response = await invoke('getAssignmentData', { issueKey });
-        if (response.error) {
+        const response = await invoke('getAssignmentData', { issueKey, issueType }) as any;
+        if (response?.error) {
           setError(response.error);
         } else {
-          setAssignment(response);
+          setAssignment(response as AssignmentIssue);
         }
       } catch (err) {
         setError('Failed to load assignment data');
-        console.error('Assignment panel error:', err);
+        console.error('Assignment error:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    if (issueKey && issueType === 'Assignment') {
-      fetchAssignmentData();
-    }
+    fetchAssignmentData();
   }, [issueKey, issueType]);
 
   const handleSubmission = async (formData: any) => {
@@ -57,14 +50,12 @@ export const AssignmentPanel: React.FC<AssignmentPanelProps> = ({ issueKey, issu
       const response = await invoke('submitAssignment', {
         issueKey,
         submissionData: formData
-      });
+      }) as any;
       
-      if (response.error) {
+      if (response?.error) {
         setError(response.error);
       } else {
-        // Refresh assignment data
-        const updatedResponse = await invoke('getAssignmentData', { issueKey });
-        setAssignment(updatedResponse);
+        setAssignment(response as AssignmentIssue);
       }
     } catch (err) {
       setError('Failed to submit assignment');
@@ -74,21 +65,18 @@ export const AssignmentPanel: React.FC<AssignmentPanelProps> = ({ issueKey, issu
     }
   };
 
-  const handleGrading = async (grade: number, feedback: string) => {
+  const handleGrading = async (formData: any) => {
     try {
       setSubmitting(true);
       const response = await invoke('gradeAssignment', {
         issueKey,
-        grade,
-        feedback
-      });
+        gradeData: formData
+      }) as any;
       
-      if (response.error) {
+      if (response?.error) {
         setError(response.error);
       } else {
-        // Refresh assignment data
-        const updatedResponse = await invoke('getAssignmentData', { issueKey });
-        setAssignment(updatedResponse);
+        setAssignment(response as AssignmentIssue);
       }
     } catch (err) {
       setError('Failed to grade assignment');
@@ -98,124 +86,76 @@ export const AssignmentPanel: React.FC<AssignmentPanelProps> = ({ issueKey, issu
     }
   };
 
-  const render = (context: any) => {
-    if (issueType !== 'Assignment') {
-      return (
-        <Fragment>
-          <Text>This panel is only available for Assignment issues.</Text>
-        </Fragment>
-      );
-    }
-
-    if (loading) {
-      return (
-        <Fragment>
-          <Text>Loading assignment details...</Text>
-        </Fragment>
-      );
-    }
-
-    if (error) {
-      return (
-        <Fragment>
-          <SectionMessage appearance="error">
-            <Text>{error}</Text>
-          </SectionMessage>
-        </Fragment>
-      );
-    }
-
-    if (!assignment) {
-      return (
-        <Fragment>
-          <Text>No assignment data found.</Text>
-        </Fragment>
-      );
-    }
-
-    const isStudent = context.accountId === assignment.assignee;
-    const isFaculty = context.accountId === assignment.reporter;
-    const canSubmit = isStudent && assignment.customFields.submissionStatus !== 'Submitted' && assignment.customFields.submissionStatus !== 'Graded';
-    const canGrade = isFaculty && assignment.customFields.submissionStatus === 'Submitted';
-
+  if (loading) {
     return (
       <Fragment>
-        <Text size="large">Assignment: {assignment.summary}</Text>
-        
-        <FormSection>
-          <FormField label="Course Code">
-            <Text>{assignment.customFields.courseCode}</Text>
-          </FormField>
-          
-          <FormField label="Total Marks">
-            <Text>{assignment.customFields.totalMarks}</Text>
-          </FormField>
-          
-          <FormField label="Deadline">
-            <Text>{new Date(assignment.customFields.deadline).toLocaleDateString()}</Text>
-          </FormField>
-          
-          <FormField label="Status">
-            <StatusLozenge 
-              appearance={
-                assignment.customFields.submissionStatus === 'Graded' ? 'success' :
-                assignment.customFields.submissionStatus === 'Submitted' ? 'inprogress' :
-                assignment.customFields.submissionStatus === 'In Progress' ? 'new' : 'removed'
-              }
-              text={assignment.customFields.submissionStatus}
-            />
-          </FormField>
-          
-          {assignment.customFields.grade && (
-            <FormField label="Grade">
-              <Text>{assignment.customFields.grade} / {assignment.customFields.totalMarks}</Text>
-            </FormField>
-          )}
-          
-          {assignment.customFields.feedback && (
-            <FormField label="Feedback">
-              <Text>{assignment.customFields.feedback}</Text>
-            </FormField>
-          )}
-        </FormSection>
-
-        {canSubmit && (
-          <Form onSubmit={handleSubmission} submitButtonText="Submit Assignment" isDisabled={submitting}>
-            <FormSection>
-              <FormField label="Submission Notes" isRequired>
-                <TextArea name="submissionNotes" placeholder="Add any notes about your submission..." />
-              </FormField>
-              
-              {assignment.customFields.allowFileUpload && (
-                <FormField label="File Upload">
-                  <Text>Please attach your files to this Jira issue.</Text>
-                </FormField>
-              )}
-            </FormSection>
-          </Form>
-        )}
-
-        {canGrade && (
-          <Form onSubmit={(formData) => handleGrading(formData.grade, formData.feedback)} 
-                submitButtonText="Submit Grade" isDisabled={submitting}>
-            <FormSection>
-              <FormField label="Grade" isRequired>
-                <TextField 
-                  name="grade" 
-                  type="number" 
-                  placeholder={`Enter grade (0-${assignment.customFields.totalMarks})`}
-                />
-              </FormField>
-              
-              <FormField label="Feedback">
-                <TextArea name="feedback" placeholder="Provide feedback to the student..." />
-              </FormField>
-            </FormSection>
-          </Form>
-        )}
+        <Text>Assignment Panel</Text>
+        <Text>Loading assignment data...</Text>
       </Fragment>
     );
-  };
+  }
 
-  return { render };
+  if (error) {
+    return (
+      <Fragment>
+        <Text>Assignment Panel</Text>
+        <SectionMessage appearance="error">
+          <Text>{error}</Text>
+        </SectionMessage>
+      </Fragment>
+    );
+  }
+
+  if (!assignment) {
+    return (
+      <Fragment>
+        <Text>Assignment Panel</Text>
+        <Text>No assignment data available</Text>
+      </Fragment>
+    );
+  }
+
+  return (
+    <Fragment>
+      <Text>Assignment: {assignment.summary}</Text>
+      <StatusLozenge 
+        appearance={assignment.customFields.submissionStatus === 'Graded' ? 'success' : 'inprogress'} 
+        text={assignment.customFields.submissionStatus} 
+      />
+      
+      {assignment.description ? (
+        <Text>{assignment.description}</Text>
+      ) : null}
+
+      {assignment.customFields.deadline ? (
+        <Text>Due: {new Date(assignment.customFields.deadline).toLocaleDateString()}</Text>
+      ) : null}
+
+      {assignment.customFields.submissionStatus !== 'Graded' ? (
+        <Form onSubmit={handleSubmission} submitButtonText="Submit Assignment">
+          <TextArea 
+            name="submissionNotes" 
+            label="Submission Notes"
+            placeholder="Add any notes about your submission..." 
+          />
+        </Form>
+      ) : null}
+
+      {assignment.customFields.submissionStatus === 'Submitted' ? (
+        <Form onSubmit={handleGrading} submitButtonText="Submit Grade">
+          <TextField
+            name="grade"
+            label="Grade"
+            type="number"
+            placeholder="Enter grade (0-100)"
+          />
+          <TextArea 
+            name="feedback" 
+            label="Feedback"
+            placeholder="Provide feedback to the student..." 
+          />
+        </Form>
+      ) : null}
+    </Fragment>
+  );
 };

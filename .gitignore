@@ -9,12 +9,21 @@ dist/
 build/
 *.tsbuildinfo
 
-# Environment variables
+# Environment variables and sensitive data
 .env
+.env.*
+*.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# API Keys and tokens (extra protection)
+**/api-keys.txt
+**/tokens.txt
+**/*token*
+**/*key*
+**/*secret*
 
 # IDE and editor files
 .vscode/settings.json
@@ -58,5 +67,15 @@ tunnel.pid
 # Test artifacts
 junit.xml
 
-# Kiro IDE files
+# Kiro IDE files (complete exclusion)
 .kiro/
+**/.kiro/
+.kiro/**/*
+
+# Deployment scripts with sensitive data
+deploy.ps1
+final-deploy.ps1
+deploy.bat
+
+# Temporary deployment directory
+AcademiChain-AI-Automator/

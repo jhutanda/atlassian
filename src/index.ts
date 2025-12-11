@@ -19,7 +19,10 @@ resolver.define('main', async (req: any) => {
     case 'academichain-project-page':
       return AcademicDashboard();
     case 'academichain-issue-panel':
-      return AssignmentPanel();
+      return AssignmentPanel({ 
+        issueKey: context.extension?.issue?.key || '', 
+        issueType: context.extension?.issue?.issueType?.name || '' 
+      });
     case 'academichain-space-page':
       return SemesterManagement();
     case 'academichain-queue-page':

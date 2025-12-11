@@ -49,6 +49,6 @@ permissions:
         - "*.openai.com"
         - "*.anthropic.com"
 app:
-  id: ari:cloud:ecosystem::app/academichain-ai-automator
+  id: ari:cloud:ecosystem::app/12345678-1234-4567-8901-123456789abc
   runtime:
-    name: nodejs18.x
+    name: nodejs20.x
